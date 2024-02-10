@@ -1,0 +1,273 @@
+type  User {
+  itemType: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  gender: String!
+  jobTitle: String!
+  country: String!
+}
+
+type Org {
+  userid: String
+  orgid: String
+  email: String
+  name: String
+  prevorgid: String
+}
+
+type GetUsersResponse {
+  data: [User]
+  nextToken: String
+}
+
+# Inputs
+input AddUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  gender: String!
+  jobTitle: String!
+  country: String!
+}
+input UpdateUserInput {
+  email: String!
+  firstName: String
+  lastName: String
+  gender: String
+  jobTitle: String
+  country: String
+}
+input DeleteUserInput {
+  email: String!
+}
+input GetUsersInput {
+  email: String
+  nextToken: String
+}
+
+
+type Kupujacy {
+  buyerid: String!
+  orgid: String!
+  imie: String
+  nazwisko: String
+  email: String
+  telefon: String
+  auta: [String]
+}
+
+type GetKupujacyResponse {
+  data: [Kupujacy]
+  nextToken: String
+}
+
+# Inputs
+input AddKupujacyInput {
+  orgid: String!
+  imie: String
+  nazwisko: String
+  email: String
+  telefon: String
+  auta: [String]
+}
+
+input GetKupujacyInput {
+  orgid: String
+  buyerid: String
+  nextToken: String
+}
+
+input UpdateKupujacyInput {
+  buyerid: String!
+  imie: String
+  nazwisko: String
+  email: String
+  telefon: String
+  auta: [String]
+}
+
+input DeleteKupujacyInput {
+  buyerid: String!
+}
+
+
+
+
+type Samochod {
+  userid: String!
+  autoid: String!
+  orgid: String
+  buyerid: String
+  VIN: String
+  m_status: String
+  timestamp: Int
+  dokumenty: [String]
+  num_kontenera: String
+  m_data: String
+  rocznik: String
+  marka_i_model: String
+  title_status: String
+  data_zakupu: String
+  notatka: String
+  zdjecia_glowne: [String]
+  zdjecia_laweta: [String]
+}
+
+type GetSamochodyResponse {
+  data: [Samochod]
+  nextToken: String
+}
+
+# Inputs
+input AddSamochodyInput {
+  userid: String!
+  buyerid: String
+  VIN: String
+  m_status: String
+  num_kontenera: String
+  m_data: String
+  rocznik: String
+  marka_i_model: String
+  title_status: String
+  data_zakupu: String
+  notatka: String
+  zdjecia_glowne: [String]
+  zdjecia_laweta: [String]
+}
+input GetSamochodyInput {
+  orgid: String
+  autoid: String
+  buyerid: String
+  nextToken: String
+}
+
+input UpdateSamochodyInput {
+  autoid: String!
+  buyerid: String
+  VIN: String
+  m_status: String
+  num_kontenera: String
+  m_data: String
+  rocznik: String
+  dokumenty: [String]
+  marka_i_model: String
+  title_status: String
+  data_zakupu: String
+  notatka: String
+  zdjecia_glowne: [String]
+  zdjecia_laweta: [String]
+}
+
+input DeleteSamochodyInput {
+  autoid: String!
+}
+
+input ValidateFile {
+  key: ID!
+  userid: String!
+  autoid: String!
+  name: String!
+}
+
+type Dokument {
+  docid: String
+  name: String
+  url:String
+}
+
+type GetDokumentyResponse {
+  data: [Dokument]
+}
+
+input getDokumentyInput {
+  ids: [String]
+}
+
+input getOrgsInput {
+  userid: String!
+}
+input addOrgInput {
+  userid: String!
+  email: String!
+  name: String!
+}
+
+input updateOrgInput {
+  userid: String!
+  name: String
+
+}
+
+input deleteOrgInput {
+  userid: String!
+}
+
+
+type GetOrgResponse {
+  data: [Org]
+}
+
+# Queries
+type Query {
+  getSamochody(getSamochodyInput: GetSamochodyInput!): GetSamochodyResponse
+  getUsers(getUsersInput: GetUsersInput!): GetUsersResponse
+  getKupujacy(getKupujacyInput: GetKupujacyInput!): GetKupujacyResponse
+  getDokumenty(getDokumentyInput: getDokumentyInput!): GetDokumentyResponse
+  getOrg(getOrgsInput: getOrgsInput!): GetOrgResponse
+
+
+}
+input uploadURL {
+  userid: String!
+}
+
+
+# Mutations
+type Mutation {
+  addSamochody(addSamochodyInput: AddSamochodyInput!): Samochod
+  updateSamochody(updateSamochodyInput: UpdateSamochodyInput!): Samochod
+  deleteSamochody(deleteSamochodyInput: DeleteSamochodyInput!): String
+  addUser(addUserInput: AddUserInput!): User
+  updateUser(updateUserInput: UpdateUserInput!): User
+  deleteUser(deleteUserInput: DeleteUserInput!): String
+  addKupujacy(addKupujacyInput: AddKupujacyInput!): Kupujacy
+  updateKupujacy(updateKupujacyInput: UpdateKupujacyInput!): Kupujacy
+  deleteKupujacy(deleteKupujacyInput: DeleteKupujacyInput!): String
+  getUploadURL(uploadUrlInput: uploadURL!): AWSJSON!
+  addFile(inputValidateFile: ValidateFile!): String
+  addOrg(addOrgInput: addOrgInput!): String
+  deleteOrg(deleteOrgInput: deleteOrgInput!): String
+  updateOrg(updateOrgInput: updateOrgInput!): String
+
+}
+
+# Subscriptions
+type Subscription {
+  onAddSamochod: Samochod
+    @aws_subscribe(mutations: ["addSamochody"])
+  onDeleteSamochod: String
+    @aws_subscribe(mutations: ["deleteSamochody"])
+  onUpdateSamochod: Samochod
+    @aws_subscribe(mutations: ["updateSamochody"])
+  onAddUser: User
+    @aws_subscribe(mutations: ["addUser"])
+  onDeleteUser: String
+    @aws_subscribe(mutations: ["deleteUser"])
+  onUpdateUser: User
+    @aws_subscribe(mutations: ["updateUser"])
+  onAddKupujacy: Kupujacy
+    @aws_subscribe(mutations: ["addKupujacy"])
+  onDeleteKupujacy: String
+    @aws_subscribe(mutations: ["deleteKupujacy"])
+  onUpdateKupujacy: Kupujacy
+    @aws_subscribe(mutations: ["updateKupujacy"])
+  onAddOrg: String
+    @aws_subscribe(mutations: ["addOrg"])
+  onDeleteOrg: String
+    @aws_subscribe(mutations: ["deleteOrg"])
+  onUpdateOrg: String
+    @aws_subscribe(mutations: ["updateOrg"])
+
+
+}

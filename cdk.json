@@ -17,13 +17,13 @@
     "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],
     "globals": {
       "appName": "cdk-lambda-base",
-      "region": "ap-southeast-2"
+      "region": "eu-central-1"
     },
     "environments": [
       {
         "environment": "develop",
         "branchName": "develop",
-        "accountNumber": "123456789000"
+        "accountNumber": "876111468870"
       }
     ]
   }

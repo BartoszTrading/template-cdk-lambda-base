@@ -11,12 +11,99 @@ const DEFAULT_LAMBDA_TIMEOUT_MINS = 15;
 
 // Returns lambda definitions with custom env
 export const getLambdaDefinitions = (context: CDKContext): LambdaDefinition[] => {
-  const environment = {};
+  const environment = { TABLE_NAME: `users-${context.appName}-${context.environment}`,TABLE_CONSTRUCTOR_NAME:`${context.appName}-${context.environment}`};
   const lambdaDefinitions: LambdaDefinition[] = [
     {
-      name: 'sample-lambda',
+      name:'add-users',
       environment,
     },
+    {
+      name:'delete-users',
+      environment,
+    },
+    {
+      name:'get-users',
+      environment,
+    },
+    {
+      name:'update-users',
+      environment,
+    },
+    {
+      name:'add-samochody',
+      environment,
+    },
+    {
+      name:'delete-samochody',
+      environment,
+    },
+    {
+      name:'get-samochody',
+      environment,
+    },
+    {
+      name:'update-samochody',
+      environment,
+    },
+    {
+      name: 'add-kupujacy',
+      environment,
+    },
+    {
+      name: 'delete-kupujacy',
+      environment,
+    },
+    {
+      name: 'get-kupujacy',
+      environment,
+    },
+    {
+      name: 'update-kupujacy',
+      environment,
+    },
+    {
+      name: 'get-url',
+      environment,
+    },
+    {
+      name: 'add-file',
+      environment,
+    },
+    {
+      name: 'get-dokumenty',
+      environment,
+    },
+    {
+      name: 'add-org',
+      environment,
+    },
+    {
+      name: 'get-org',
+      environment,
+    },
+    {
+      name: 'update-org',
+      environment,
+    },
+    {
+      name: 'delete-org',
+      environment,
+    },
+    {
+      name: 'mail-dead-letter',
+      environment,
+    },
+    {
+      name: 'mail',
+      environment,
+    }
+
+
+
+
+
+
+
   ];
   return lambdaDefinitions;
 };
