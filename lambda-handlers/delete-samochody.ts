@@ -1,6 +1,6 @@
 import { AppSyncResolverHandler } from "aws-lambda";
 import * as utils from '/opt/utils';
-import { DeleteSamochodyParams } from '/opt/types';
+import { DeleteSamochodyParams } from '/opt/interfaceses/samochodInterface';
 import { DeleteCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 

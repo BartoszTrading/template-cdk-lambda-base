@@ -2,7 +2,7 @@
 import { AppSyncResolverHandler } from 'aws-lambda';
 import * as utils from '/opt/utils';
 import { QueryCommand, QueryCommandInput } from '@aws-sdk/lib-dynamodb';
-import { Samochod, GetSamochodyParams } from '../shared/types';
+import { Samochod, GetSamochodyParams } from '/opt/interfaceses/samochodInterface';
 
 
 type Result = {

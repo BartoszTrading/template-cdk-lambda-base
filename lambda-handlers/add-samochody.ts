@@ -2,10 +2,10 @@
 import { AppSyncResolverHandler } from 'aws-lambda';
 import * as utils from '/opt/utils';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
-import { Samochod, AddSamochodyParams } from '../shared/types';
+import { Samochod, AddSamochodyParams } from '/opt/interfaceses/samochodInterface';
 import { v4 as uuidv4 } from 'uuid';
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { Kupujacy } from '../shared/types';
+import { Kupujacy } from '/opt/types';
 import { TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 import { get } from 'http';
 import { createWriteStream } from 'fs';

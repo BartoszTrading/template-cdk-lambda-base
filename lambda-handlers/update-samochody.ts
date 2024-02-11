@@ -2,7 +2,7 @@
 import { AppSyncResolverHandler } from 'aws-lambda';
 import * as utils from '/opt/utils';
 import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { Samochod, UpdateSamochodyParams } from '../shared/types';
+import { Samochod, UpdateSamochodyParams } from '/opt/interfaceses/samochodInterface';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import { TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
