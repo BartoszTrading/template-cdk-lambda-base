@@ -176,6 +176,7 @@ export type AddSamochodyParams = {
       marka_i_model: string;
       title_status: string;
       data_zakupu: string;
+      notificate: Boolean;
       notatka: string;
       zdjecia_glowne: [string];
       zdjecia_laweta: [string];
@@ -224,6 +225,7 @@ export type UpdateSamochodyParams = {
       rocznik?: string;
       dokumenty?: [string];
       marka_i_model?: string;
+      notificate?: Boolean
       title_status?: string;
       data_zakupu?: string;
       notatka?: string;

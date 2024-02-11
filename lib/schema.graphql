@@ -132,6 +132,7 @@ input AddSamochodyInput {
   title_status: String
   data_zakupu: String
   notatka: String
+  notificate: Boolean
   zdjecia_glowne: [String]
   zdjecia_laweta: [String]
 }
@@ -155,6 +156,7 @@ input UpdateSamochodyInput {
   title_status: String
   data_zakupu: String
   notatka: String
+  notificate: Boolean
   zdjecia_glowne: [String]
   zdjecia_laweta: [String]
 }
