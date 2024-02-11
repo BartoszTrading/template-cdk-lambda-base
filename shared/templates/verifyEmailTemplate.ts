@@ -100,11 +100,10 @@ Use this link to confirm your account and log in</div>
                         <td class="sm-px-24"
                           style="--bg-opacity: 1; background-color: #ffffff;  border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262;"
                            align="left">
-                          <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey there,</p>
+                          <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Czesc,</p>
 
                           <p style="margin: 0 0 24px;">
-                            A request to create your node-typescript-boilerplate account was received.
-Use this link to confirm your account and log in
+
                           </p>
 
                           <lable style="display: block; font-size: 24px; line-height: 100%; margin-bottom: 24px; --text-opacity: 1; color: #000000; text-decoration: none;">${otp}</lable>
@@ -130,11 +129,10 @@ Use this link to confirm your account and log in
                             </tr>
                           </table>
                           <p style="margin: 0 0 16px;">
-                            Needing some additional support? Please contact us at
                             <a href="mailto:chiragmehta900@gmail.com" class="hover-underline"
-                              style="--text-opacity: 1; color: #7367f0;  text-decoration: none;">chiragmehta900@gmail.com</a>.
+                              style="--text-opacity: 1; color: #7367f0;  text-decoration: none;"></a>.
                           </p>
-                          <p style="margin: 0 0 16px;">Thanks, <br>The node-typescript-boilerplate Support Team</p>
+                          <p style="margin: 0 0 16px;">Pozdrawaimy, <br>AutaPanel</p>
                         </td>
                       </tr>
                       <tr>

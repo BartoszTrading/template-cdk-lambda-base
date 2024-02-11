@@ -82,6 +82,7 @@ export const handler: AppSyncResolverHandler<UpdateKupujacyParams ,Kupujacy>= as
                 await ddbDocClient.send(new TransactWriteCommand({
                     TransactItems: [...deleteBuyers, ...TransUpdate, ...transactionAdd]
                 }));
+                
                 return resolve(updatedKupujacy);
             }
                 } catch (error: any) {

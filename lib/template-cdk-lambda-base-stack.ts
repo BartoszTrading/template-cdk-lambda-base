@@ -95,6 +95,23 @@ export class CDKLambdaBaseStack extends Stack {
       })
     );
 
+    lambdaRole.attachInlinePolicy(
+      new iam.Policy(this, 'sqsacccess', {
+        policyName: 'sqsacccess',
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            resources: ['*'],
+            actions: [
+              'sqs:SendMessage',
+              'sqs:ReceiveMessage',
+              'sqs:DeleteMessage',
+              'sqs:GetQueueAttributes',
+            ],
+          }),
+        ],
+      }))
+
 
 
 

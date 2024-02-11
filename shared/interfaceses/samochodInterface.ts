@@ -10,7 +10,9 @@ export type Samochod = {
     num_kontenera: string;
     m_data: string;
     rocznik: string;
+    archiwum?: Boolean;
     marka_i_model: string;
+    statusPanel?: string;
     title_status: string;
     data_zakupu: string;
     notatka: string;
@@ -63,7 +65,10 @@ export type UpdateSamochodyParams = {
         rocznik?: string;
         dokumenty?: [string];
         marka_i_model?: string;
-        notificate?: Boolean
+        notificate?: Boolean;
+        archiwum?: Boolean;
+
+        statusPanel?: string;
         title_status?: string;
         data_zakupu?: string;
         notatka?: string;

@@ -44,7 +44,7 @@ export default class MailService {
     ) {
         return await this.transporter
             .sendMail({ 
-                from: `"chiragmehta900" ${process.env.SMTP_SENDER || options.from}`,
+                from: `${process.env.SMTP_SENDER || options.from}`,
                 to: options.to,
                 cc: options.cc,
                 bcc: options.bcc,

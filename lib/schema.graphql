@@ -100,6 +100,8 @@ type Samochod {
   orgid: String
   buyerid: String
   VIN: String
+  statusPanel: String
+  archiwum: Boolean
   m_status: String
   timestamp: Int
   dokumenty: [String]
@@ -150,6 +152,8 @@ input UpdateSamochodyInput {
   m_status: String
   num_kontenera: String
   m_data: String
+  statusPanel: String
+  archiwum: Boolean
   rocznik: String
   dokumenty: [String]
   marka_i_model: String

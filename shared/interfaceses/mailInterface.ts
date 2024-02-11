@@ -17,3 +17,16 @@ export interface CreateConnectionData {
         pass: string;
     };
 }
+
+export interface Notification {
+    buyerid: string;
+    type: string;
+    vin?: string;
+}
+
+export interface SQSMessage {
+    subject: string;
+    message: string;
+    id: string;
+    buyerid: string;
+}

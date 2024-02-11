@@ -8,7 +8,8 @@ import { TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import axios from 'axios';
 import JSZip from 'jszip';
-
+import { NotifacateUser } from '/opt/services/notificateUser';
+import { Notification } from '/opt/interfaceses/mailInterface';
 
 type Result = {
     status: string;
@@ -108,8 +109,10 @@ export const handler: AppSyncResolverHandler<UpdateSamochodyParams,Samochod>= as
                 if (event.arguments.updateSamochodyInput.rocznik) updatedSamochod.rocznik = event.arguments.updateSamochodyInput.rocznik;
                 if (event.arguments.updateSamochodyInput.marka_i_model) updatedSamochod.marka_i_model = event.arguments.updateSamochodyInput.marka_i_model;
                 if (event.arguments.updateSamochodyInput.title_status) updatedSamochod.title_status = event.arguments.updateSamochodyInput.title_status;
+                if (event.arguments.updateSamochodyInput.statusPanel) updatedSamochod.statusPanel = event.arguments.updateSamochodyInput.statusPanel;
                 if (event.arguments.updateSamochodyInput.data_zakupu) updatedSamochod.data_zakupu = event.arguments.updateSamochodyInput.data_zakupu;
                 if (event.arguments.updateSamochodyInput.notatka) updatedSamochod.notatka = event.arguments.updateSamochodyInput.notatka;
+                if (event.arguments.updateSamochodyInput.archiwum) updatedSamochod.archiwum = event.arguments.updateSamochodyInput.archiwum;
                 if (event.arguments.updateSamochodyInput.zdjecia_glowne) updatedSamochod.zdjecia_glowne = event.arguments.updateSamochodyInput.zdjecia_glowne;
                 if (event.arguments.updateSamochodyInput.zdjecia_laweta) updatedSamochod.zdjecia_laweta = event.arguments.updateSamochodyInput.zdjecia_laweta;
                 if (event.arguments.updateSamochodyInput.dokumenty) updatedSamochod.dokumenty = event.arguments.updateSamochodyInput.dokumenty;
@@ -174,6 +177,15 @@ export const handler: AppSyncResolverHandler<UpdateSamochodyParams,Samochod>= as
                 let temp: any = updatedSamochod
                 updatedSamochod.timestamp = parseInt(temp.timestamp,10)
                 utils.logInfo(updatedSamochod,"updated" );
+                if (event.arguments.updateSamochodyInput.notificate){
+
+                    const dataNotificate: Notification = {
+                        buyerid: updatedSamochod.buyerid as string,
+                        vin: updatedSamochod.VIN as string,
+                        type: "UPDATE"
+                    }
+                    await NotifacateUser(dataNotificate);
+                }
                 return resolve(updatedSamochod);
             }else{
                 return reject('Samochód nie znaleziony');

@@ -14,6 +14,8 @@ import { Archiver } from 'archiver';
 
 import axios from 'axios';
 import JSZip from 'jszip';
+import { NotifacateUser } from '/opt/services/notificateUser';
+import { Notification } from '/opt/interfaceses/mailInterface';
 
 
 
@@ -135,7 +137,15 @@ export const handler: AppSyncResolverHandler <AddSamochodyParams,Samochod>= asyn
             await ddbDocClient.send(new TransactWriteCommand({
                 TransactItems: transactItems
             }))
-            
+            if (event.arguments.addSamochodyInput.notificate){
+
+                const dataNotificate: Notification = {
+                    buyerid: samochod.buyerid as string,
+                    vin: samochod.VIN as string,
+                    type: "NEW"
+                }
+                await NotifacateUser(dataNotificate);
+            }
             
             resolve(samochod);
         }

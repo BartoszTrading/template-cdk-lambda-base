@@ -10,17 +10,18 @@ import {APIGatewayProxyResultV2, SQSEvent} from 'aws-lambda';
 import verifyEmail from '/opt/templates/verifyEmailTemplate';
 import Mail from 'nodemailer/lib/mailer';
 import MailService from '/opt/services/mailService';
-import { CreateConnectionData } from '/opt/interfaceses/mailInterface';
+import { CreateConnectionData, SQSMessage } from '/opt/interfaceses/mailInterface';
 
 export async function handler(event: SQSEvent): Promise<APIGatewayProxyResultV2> {
-  const messages = event.Records.map(record => {
-    const body = JSON.parse(record.body) as {Subject: string; Message: string};
-
-    return {subject: body.Subject, message: body.Message};
+  const messages =  event.Records.map(record => {
+    const body = JSON.parse(record.body) as SQSMessage;
+    utils.logInfo(body, 'Message');
+    return body;
   });
 
-
-  await sendMail();
+  await Promise.all(messages.map(async (message) => {
+    await sendMail(message);
+  }));  
 
   console.log('messages 👉', JSON.stringify(messages, null, 2));
 
@@ -30,16 +31,16 @@ export async function handler(event: SQSEvent): Promise<APIGatewayProxyResultV2>
   };
 }
 
-async function sendMail() {
+async function sendMail(dataInfo :SQSMessage) {
     // buyerid - id kupujacego do znalezienia maila
     //Typ Nowy/Edytowany 
 
-    const buyerid = "c4de1bb0-5dfb-4301-9830-763d00929427"
+    const buyerid = dataInfo.buyerid
     const type = "NEW"
 
     const email = await getEmail(buyerid);
 
-    const emailTemplate = verifyEmail("NOWT")
+    const emailTemplate = verifyEmail(dataInfo.message)
 
     const mailService = MailService.getInstance();
 
@@ -60,7 +61,7 @@ async function sendMail() {
       "ddd",{
         to: email,
         from: process.env.SMTP_SENDER as string,
-        subject: "Weryfikacja",
+        subject: dataInfo.subject,
         html: emailTemplate.html
       }
     )
