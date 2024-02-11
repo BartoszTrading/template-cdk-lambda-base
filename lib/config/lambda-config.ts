@@ -11,7 +11,17 @@ const DEFAULT_LAMBDA_TIMEOUT_MINS = 15;
 
 // Returns lambda definitions with custom env
 export const getLambdaDefinitions = (context: CDKContext): LambdaDefinition[] => {
-  const environment = { TABLE_NAME: `users-${context.appName}-${context.environment}`,TABLE_CONSTRUCTOR_NAME:`${context.appName}-${context.environment}`};
+  const environment = { 
+    TABLE_NAME: `users-${context.appName}-${context.environment}`,
+    TABLE_CONSTRUCTOR_NAME:`${context.appName}-${context.environment}`,
+    PORT:"3001",
+    SMTP_HOST: "mail.privateemail.com",
+    SMTP_PORT:"587",
+    SMTP_USERNAME:"bartoszmarek@botujai.pl",
+    SMTP_PASSWORD:"Elipsa123",
+    SMTP_SENDER:"bartoszmarek@botujai.pl",
+  
+  };
   const lambdaDefinitions: LambdaDefinition[] = [
     {
       name:'add-users',

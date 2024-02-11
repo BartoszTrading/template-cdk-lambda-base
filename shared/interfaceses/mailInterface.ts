@@ -7,3 +7,13 @@ export interface MailInterface {
     text?: string;
     html: string;
 }
+
+export interface CreateConnectionData {
+    host: string;
+    port: string;
+    secure: boolean;
+    auth: {
+        user: string;
+        pass: string;
+    };
+}

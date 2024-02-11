@@ -7,6 +7,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 import {APIGatewayProxyResultV2, SQSEvent} from 'aws-lambda';
+import verifyEmail from '/opt/templates/verifyEmailTemplate';
+import Mail from 'nodemailer/lib/mailer';
+import MailService from '/opt/services/mailService';
+import { CreateConnectionData } from '/opt/interfaceses/mailInterface';
 
 export async function handler(event: SQSEvent): Promise<APIGatewayProxyResultV2> {
   const messages = event.Records.map(record => {
@@ -33,58 +37,33 @@ async function sendMail() {
     const buyerid = "c4de1bb0-5dfb-4301-9830-763d00929427"
     const type = "NEW"
 
-    const userdata = {
-        email: 'bartoszmarek@botujai.pl',
-        password: 'Elipsa123', 
-        port: 587,
-        
+    const email = await getEmail(buyerid);
+
+    const emailTemplate = verifyEmail("NOWT")
+
+    const mailService = MailService.getInstance();
+
+    const data: CreateConnectionData = {
+      host: process.env.SMTP_HOST as string,
+      port: process.env.SMTP_PORT as string,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USERNAME as string,
+        pass: process.env.SMTP_PASSWORD as string
+      }
+    
     }
 
-    const transporter = nodemailer.createTransport({
-        host: "mail.privateemail.com", // Use your email service
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-          user: userdata.email, // Your email address
-          pass: userdata.password, // Your password
-        },
-      }); 
-    transporter.verify(function (error, success) {
-        if (error) {
-          console.log(error);
-          utils.logError(error);
-        } else {
-          console.log("Server is ready to take our messages");
-          utils.logInfo("Server is ready to take our messages");
-        }
-      });
-    
+    await mailService.createConnection(data);
 
-    const email = await getEmail(buyerid);
-    utils.logInfo(email, 'Email');
-    if (email) {
-        const mailOptions = {
-            from: userdata.email, // Your email address
-            to: email, // Email address where the email will be sent
-            subject: 'Nowy kupujący', // Subject of the email
-            html: JSON.stringify(`<h1>Witaj, nowy kupujący został dodany do bazy</h1><p>Typ: ${type}</p>`), // Content of the email
-          };
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              console.log(error);
-              utils.logError(error);
-              throw new Error('Error while sending email');
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-          });
-
-
-        }else{
-            throw new Error('Email not found');
-        }
-
+    await mailService.sendMail(
+      "ddd",{
+        to: email,
+        from: process.env.SMTP_SENDER as string,
+        subject: "Weryfikacja",
+        html: emailTemplate.html
+      }
+    )
 }
 
 async function getEmail(buyerid: string) {
