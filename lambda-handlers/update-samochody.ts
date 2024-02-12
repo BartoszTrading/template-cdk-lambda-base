@@ -127,7 +127,7 @@ export const handler: AppSyncResolverHandler<UpdateSamochodyParams,Samochod>= as
                     const client = new S3Client();
                 
                     // Fetch images and add them to the zip
-                    for (const url of updatedSamochod.zdjecia_glowne) {
+                    for (const url of [...updatedSamochod.zdjecia_glowne, ...updatedSamochod.zdjecia_laweta]) {
                         const imageName = `${url.split('/').pop()}.jpg`; // Extract image name from URL
                         const imageBlob = await fetchImage(url);
                         zip.file(imageName as string, imageBlob, { binary: true });

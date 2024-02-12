@@ -27,7 +27,8 @@ export const handler: AppSyncResolverHandler<DeleteKupujacyParams, string> = asy
 
             if (getKupujacyOutput.Items && getKupujacyOutput.Items.length > 0){
                 const kupujacyItems: Kupujacy = getKupujacyOutput.Items[0] as Kupujacy;
-
+                utils.logInfo(kupujacyItems, 'KupujacyItems');
+                utils.logInfo(process.env.TABLE_CONSTRUCTOR_NAME, 'KupujacyItemsAuta');
                 if( kupujacyItems.auta && kupujacyItems.auta.length > 0){
                     const updateItem = kupujacyItems.auta.map(autoId => ({
                             Update: {
@@ -35,21 +36,42 @@ export const handler: AppSyncResolverHandler<DeleteKupujacyParams, string> = asy
                                 Key: { autoid: autoId },
                                 UpdateExpression: `remove buyerid`,
                             }
-                    }));
-                const deleteItem = [{
-                    Delete: {
-                        TableName: `kupujacy-${process.env.TABLE_CONSTRUCTOR_NAME}`,
-                        Key: {
-                            buyerid: event.arguments.deleteKupujacyInput.buyerid 
-                        }
+                        }));
+                        const deleteItem = [{
+                            Delete: {
+                                TableName: `kupujacy-${process.env.TABLE_CONSTRUCTOR_NAME}`,
+                                Key: {
+                                    buyerid: event.arguments.deleteKupujacyInput.buyerid 
+                                }
+                            }
+                        }];
+        
+        
+                        await ddbDocClient.send(new TransactWriteCommand({
+                            TransactItems: [...updateItem, ...deleteItem]
+                        }));
+                        utils.logInfo("Kupujący usunięty");
+                        return resolve("Kupujący usunięty");
+                    
+                    
+                    }else {
+                        const deleteItem = [{
+                            Delete: {
+                                TableName: `kupujacy-${process.env.TABLE_CONSTRUCTOR_NAME}`,
+                                Key: {
+                                    buyerid: event.arguments.deleteKupujacyInput.buyerid 
+                                }
+                            }
+                        }];
+        
+        
+                        await ddbDocClient.send(new TransactWriteCommand({
+                            TransactItems: [ ...deleteItem]
+                        }));
+                        utils.logInfo("Kupujący usunięty");
+                        return resolve("Kupujący usunięty");
                     }
-                }];
-
-                await ddbDocClient.send(new TransactWriteCommand({
-                    TransactItems: [...updateItem, ...deleteItem]
-                }));
-                return resolve("Kupujący usunięty");
-            }
+            
         } else {
             return reject('Kupujący nie znaleziony');
         }
